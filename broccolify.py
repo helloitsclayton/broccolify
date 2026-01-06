@@ -8,60 +8,53 @@ with open('recipes.json', mode='r', encoding='utf-8') as file:
 
 categories = []
 
-if not os.path.exists('broccoli'):
+if not os.path.exists('broccoli'): #makes dir for archive if does not already exist
 	os.mkdir('broccoli')
 
-for cat in recipes:
-	categories.append(cat)
-	for subCat in recipes[cat]:
-		categories.append(subCat)
-		for index in range(len(recipes[cat][subCat])):
-			currentRecipe = recipes[cat][subCat][index]
-			
-			directions = '\n'.join(map(str,currentRecipe['directions']))
-			directions = directions.replace('&amp;','&')
-			
-			ingredients = '\n'.join(map(str,currentRecipe['ingredients']))
-			ingredients = ingredients.replace('&amp;','&')
+for recipe in recipes:
+	title = recipes[recipe]['title'].replace('&amp;','&')
 
-			notes = ''
-			if currentRecipe['amt'] and currentRecipe['notes']:
-				notes = '\n'.join(map(str,currentRecipe['notes']))
-				notes = currentRecipe['amt']+'\n'+src
-			elif currentRecipe['amt']:
-				notes = currentRecipe['amt']
-			elif currentRecipe['notes']:
-				notes = '\n'.join(map(str,currentRecipe['notes']))
-			
-			src = ''
-			if currentRecipe['src']:
-				src = '\n'.join(map(str,currentRecipe['src']))
-			
-			title = currentRecipe['title'].replace('&amp;','&')
+	fileName = recipes[recipe]['title'].replace(' &amp; ',' ')
+	fileName = fileName.translate(str.maketrans('', '', string.punctuation))
+	fileName = fileName.replace(' ','_')
 
-			fileName = title.replace(' &amp; ',' ')
-			fileName = fileName.translate(str.maketrans('', '', string.punctuation))
-			fileName = fileName.replace(' ','_')
-			recipeDir = 'broccoli/'+fileName
+	directions = '\n'.join(map(str,recipes[recipe]['directions']))
+	directions = directions.replace('&amp;','&')
 
-			if not os.path.exists(recipeDir): #makes directory for each recipe if they do not already exist
-				os.makedirs(recipeDir)
+	ingredients = '\n'.join(map(str,recipes[recipe]['ingredients']))
+	ingredients = ingredients.replace('&amp;','&')
 
-			imageName = ''
-			if os.path.exists('img/'+fileName+'.jpg'): #copies over recipe image and sets imageName if it exists
-				imageName = fileName+'.jpg'
-				shutil.copy('img/'+fileName+'.jpg',recipeDir)
+	if recipes[recipe]['notes']:
+		notes = '\n'.join(map(str,recipes[recipe]['notes']))
+		notes = notes.replace('&amp;','&')
+	else:
+		notes = ''
 
-			newRecipe = {'categories':[cat,subCat],'description':'','directions':directions,'imageName':imageName,'ingredients':ingredients,'notes':notes,'nutritionalValues':'','preparationTime':'','servings':'','source':src,'title':title,'favorite':False}
+	if recipes[recipe]['src']:
+		src = '\n'.join(map(str,recipes[recipe]['src']))
 
-			recipePath = recipeDir+'/'+fileName
-			
-			with open(recipePath+'.json','w',encoding='utf-8') as file: #dumps newRecipe into fileName.json
-				json.dump(newRecipe,file)
+	for cat in recipes[recipe]['categories']:
+		categories.append(cat)
 
-			shutil.make_archive(recipeDir,'zip',recipeDir) #zips up recipe folder
-			shutil.move(recipeDir+'.zip',recipeDir+'.broccoli') #turns .zip files into .broccoli files
-			shutil.rmtree(recipeDir) #removes files and dirs that have been zipped up
+	recipeDir = 'broccoli/'+fileName #makes directory for each recipe if they do not already exist
+	if not os.path.exists(recipeDir):
+		os.makedirs(recipeDir)
+
+	if os.path.exists('img/'+fileName+'.jpg'): #copies over recipe image and sets imageName if it exists
+		imageName = fileName+'.jpg'
+		shutil.copy('img/'+fileName+'.jpg',recipeDir)
+	else:
+		imageName = ''
+
+	newRecipe = {'categories':recipes[recipe]['categories'],'description':'','directions':directions,'imageName':imageName,'ingredients':ingredients,'notes':notes,'nutritionalValues':'','preparationTime':recipes[recipe]['prepTime'],'servings':recipes[recipe]['amt'],'source':src,'title':title,'favorite':False}
+
+	recipePath = recipeDir+'/'+fileName
+	with open(recipePath+'.json','w',encoding='utf-8') as file: #dumps newRecipe into fileName/fileName.json
+		json.dump(newRecipe,file)
+
+	shutil.make_archive(recipeDir,'zip',recipeDir) #zips up recipe folder
+	shutil.move(recipeDir+'.zip',recipeDir+'.broccoli') #turns .zip files into .broccoli files
+	shutil.rmtree(recipeDir) #removes files and dirs that have been zipped up
 
 categories = list(set(categories)) #dedupes category list and creates categories.json
 with open('broccoli/categories.json','w') as file:

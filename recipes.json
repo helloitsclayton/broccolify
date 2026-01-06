@@ -1,27 +1,28 @@
 {
-	"Sides": {
-		"Dips": [
-			{	"title": "Hummus",
-				"amt": "",
-				"ingredients": [
-					"250g chickpeas, cooked",
-					"2 T tahini",
-					"4 T olive oil",
-					"4 T water",
-					"1 lemon",
-					"1 clove garlic",
-					"1\u20442 t cumin, ground",
-					"salt and pepper to taste",
-					"paprika"
-				],
-				"directions": [
-					"Drain the chickpeas, then juice the lemon and chop the garlic.",
-					"Combine everything in a food processor and blend until smooth.",
-					"Season to taste with salt and pepper and sprinkle with paprika."
-				],
-				"notes": [],
-				"src": ["Broccoli demo recipe","https://flauschcode.com/hummus-creamy-and-delicious/"]
-			}
+	"Hummus": {
+		"title": "Hummus",
+		"amt": "",
+		"ingredients": [
+			"250g chickpeas, cooked",
+			"2 T tahini",
+			"4 T olive oil",
+			"4 T water",
+			"1 lemon",
+			"1 clove garlic",
+			"1\u20442 t cumin, ground",
+			"salt and pepper to taste",
+			"paprika"
+		],
+		"directions": [
+			"Drain the chickpeas, then juice the lemon and chop the garlic.",
+			"Combine everything in a food processor and blend until smooth.",
+			"Season to taste with salt and pepper and sprinkle with paprika."
+		],
+		"notes": [],
+		"src": ["Broccoli demo recipe","https://flauschcode.com/hummus-creamy-and-delicious/"],
+		"categories": [
+			"Sides",
+			"Dips"
 		]
 	}
 }
