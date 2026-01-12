@@ -1,0 +1,22 @@
+{
+	"name": "broccolify",
+	"version": "0.1",
+	"license": "CC0 1.0 Universal",
+	"description": "Simple python scripts to transform a JSON file of recipes into a broccoli-archive file and vice versa",
+	"keywords": [
+		"recipe",
+		"recipes",
+		"json",
+		"addon",
+		"broccoli",
+		"recipe-app",
+		"recipes-app"
+	],
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/helloitsclayton/broccolify.git"
+	},
+	"dependencies": {
+		"broccoli": "^1.4.4"
+	}
+}
